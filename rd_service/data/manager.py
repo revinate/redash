@@ -154,7 +154,8 @@ class Manager(object):
         if self.workers:
             return self.workers
 
-        runner = query_runner.redshift(connection_string)
+        #runner = query_runner.redshift(connection_string)
+        runner = query_runner.graphite(connection_string)
 
         redis_connection_params = self.redis_connection.connection_pool.connection_kwargs
         self.workers = [worker.Worker(self, redis_connection_params, runner)
