@@ -341,7 +341,12 @@ if __name__ == '__main__':
     static_path = os.path.abspath(os.path.join(root_path, tornado.options.options.static))
 
     url = urlparse.urlparse(settings.REDIS_URL)
-    redis_connection = redis.StrictRedis(host=url.hostname, port=url.port, db=0, password=url.password)
+    if url.path:
+        redis_db = url.path[1]
+    else:
+        redis_db = 0
+
+    redis_connection = redis.StrictRedis(host=url.hostname, port=url.port, db=redis_db, password=url.password)
     data_manager = data.Manager(redis_connection, settings.INTERNAL_DB_CONNECTION_STRING,
                                       settings.MAX_CONNECTIONS)
 
