@@ -41,7 +41,8 @@ angular.module('highchart', [])
                                 scope.chart.series[0].remove(true);
                             }
 
-                            if (_.some(scope.series[0].data, function(p) { return angular.isString(p.x) })) {
+                            if (scope.series[0].type == 'column' &&
+                                _.some(scope.series[0].data, function(p) { return angular.isString(p.x) })) {
                                 scope.chart.xAxis[0].update({type: 'category'});
 
                                 // We need to make sure that for each category, each series has a value.
@@ -61,6 +62,19 @@ angular.module('highchart', [])
                                     s.data = newData;
                                 });
                             } else {
+                                if (scope.series[0].type == 'area') {
+                                    _.each(scope.series, function(s) {
+                                        _.each(s.data, function(p) {
+                                            // This is an insane hack: somewhere deep in HighChart's code,
+                                            // when you stack areas, it tries to convert the string representation
+                                            // of point's x into a number. With the default implementation of toString
+                                            // it fails....
+                                            p.x.toString = function() {
+                                                return String(this.toDate().getTime());
+                                            }
+                                        })
+                                    });
+                                }
                                 scope.chart.xAxis[0].update({type: 'datetime'});
                             }
 

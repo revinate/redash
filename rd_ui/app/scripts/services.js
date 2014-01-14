@@ -117,7 +117,7 @@
                     if (series[seriesName] == undefined) {
                         series[seriesName] = {
                             name: seriesName,
-                            type: 'column',
+                            type: 'area',
                             data: []
                         }
                     }
