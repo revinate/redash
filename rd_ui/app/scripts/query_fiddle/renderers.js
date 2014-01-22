@@ -96,7 +96,9 @@ renderers.directive('chartRenderer', function () {
         restrict: 'E',
         scope: {
             queryResult: '=',
-            stacking: '&'
+            stacking: '&',
+            options: '=?',
+            type: '&'
         },
         template: "<chart options='chartOptions' series='chartSeries' class='graph'></chart>",
         replace: false,
@@ -115,8 +117,9 @@ renderers.directive('chartRenderer', function () {
                         stacking = 'normal';
                     }
 
+                    var chart_type = $scope.type() || 'column';
                     _.each($scope.queryResult.getChartData(), function (s) {
-                        $scope.chartSeries.push(_.extend(s, {'stacking': stacking}));
+                        $scope.chartSeries.push(_.extend(s, {'stacking': stacking, 'type': chart_type}, $scope.options));
                     });
                 }
             });
