@@ -80,6 +80,17 @@ var defaultChartOptions = {
                 }
             }
         },
+        spline: {
+            lineWidth: 4,
+            states: {
+                hover: {
+                    lineWidth: 5
+                }
+            },
+            marker: {
+                enabled: false
+            }
+        },
         "column": {
             "stacking": "normal",
             "pointPadding": 0,
